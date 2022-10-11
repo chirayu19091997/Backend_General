@@ -10,8 +10,8 @@ exports.getUser = async (req, res, next) => {
 
 exports.createUser = async (req, res, next) => {
   const user = new userModel({
-    name: req.body.name,
-    age: req.body.age,
+    email: req.body.email,
+    password: req.body.password,
   });
 
   res.json({ data: await user.save() });
