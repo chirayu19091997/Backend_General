@@ -1,6 +1,7 @@
 const userModel = require("../models/user");
 
 exports.getUsers = async (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
   res.json({ data: await userModel.find() });
 };
 
