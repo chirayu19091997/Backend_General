@@ -11,14 +11,20 @@ exports.getUser = async (req, res, next) => {
   res.json({ data: await userModel.findById(req.query._id) });
 };
 
-exports.createUser = async (req, res, next) => {
-  const encryptedPassword = await bcrypt.hash(req.body.password, 10);
-  console.log(encryptedPassword);
+exports.createUser = (req, res, next) => {
+  const encryptedPassword = bcrypt.hash(req.body.password, 10).toString();
   const user = new userModel({
     email: req.body.email,
     password: encryptedPassword,
   });
-  res.json({ data: await user.save() });
+  user
+    .save()
+    .then((resp) => {
+      res.json({ data: resp, error: false });
+    })
+    .catch((err) => {
+      res.json({ data: err, error: true });
+    });
 };
 
 exports.updateUser = async (req, res, next) => {
